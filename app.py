@@ -4,8 +4,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return '''
-    <form action="/login" method="post">
+    # 抓 Ruckus 帶的 StartURL，預設 fallback 為 "/"
+    start_url = request.args.get('StartURL', '/')
+    return f'''
+    <form action="/login?StartURL={start_url}" method="post">
         Username: <input name="username"><br>
         Password: <input name="password" type="password"><br>
         <input type="submit" value="Login">
@@ -16,12 +18,13 @@ def index():
 def login():
     username = request.form.get('username')
     password = request.form.get('password')
+    start_url = request.args.get('StartURL', '/')
 
-    # 驗證邏輯，可接資料庫或固定帳密
     if username == "test" and password == "1234":
-        # Web Auth 成功 → Redirect 回 Ruckus 提供的成功 URL
-        return redirect("https://google.com")
+        # 成功 → redirect 到 Ruckus Captive Portal 指定 URL
+        return redirect(start_url)
     else:
         return "Login Failed"
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
