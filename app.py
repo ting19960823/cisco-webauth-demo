@@ -1,33 +1,25 @@
-from flask import Flask, request, redirect, render_template_string
+from flask import Flask, request, redirect
 
 app = Flask(__name__)
 
-login_page = """
-<h2>Guest WiFi Login</h2>
-<form action="/login" method="post">
-  <input type="hidden" name="start_url" value="{{ start_url }}">
-  Username: <input type="text" name="username"><br>
-  Password: <input type="password" name="password"><br>
-  <input type="submit" value="Login">
-</form>
-"""
-
-@app.route("/", methods=["GET"])
+@app.route('/')
 def index():
-    # 從 SZ redirect 參數抓 StartURL
-    start_url = request.args.get("StartURL", "https://google.com")
-    return render_template_string(login_page, start_url=start_url)
+    return '''
+    <form action="/login" method="post">
+        Username: <input name="username"><br>
+        Password: <input name="password" type="password"><br>
+        <input type="submit" value="Login">
+    </form>
+    '''
 
-@app.route("/login", methods=["POST"])
+@app.route('/login', methods=['POST'])
 def login():
-    username = request.form.get("username")
-    password = request.form.get("password")
-    start_url = request.form.get("start_url")
+    username = request.form.get('username')
+    password = request.form.get('password')
 
-    if username == "guest" and password == "1234":
-        # 直接 redirect StartURL，SZ144 收到 redirect 就放行
-        return redirect(start_url)
+    # 驗證邏輯，可接資料庫或固定帳密
+    if username == "test" and password == "1234":
+        # Web Auth 成功 → Redirect 回 Ruckus 提供的成功 URL
+        return redirect("http://10.0.0.1/success")
     else:
-        return "Login failed.", 401
-
-app.run(host="0.0.0.0", port=8080)
+        return "Login Failed"
