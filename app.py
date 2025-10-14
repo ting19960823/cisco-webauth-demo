@@ -22,7 +22,7 @@ def login():
 
     if username == "test" and password == "1234":
         # 成功 → redirect 到 Ruckus Captive Portal 指定 URL
-        return redirect(start_url)
+        return "Login OK"
     else:
         return "Login Failed"
 
