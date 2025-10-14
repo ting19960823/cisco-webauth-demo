@@ -1,8 +1,31 @@
-from flask import Flask, request, render_template_string
+from flask import Flask, request, redirect, render_template_string
 
 app = Flask(__name__)
 
-# 顯示登入頁面
+# 登入頁面 HTML
+login_page = """
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Guest WiFi Login</title>
+  </head>
+  <body>
+    <h2>Guest WiFi Login</h2>
+    <form action="/login" method="post">
+      Username: <input type="text" name="username"><br><br>
+      Password: <input type="password" name="password"><br><br>
+      <input type="hidden" name="login_url" value="{{ login_url }}">
+      <input type="submit" value="Login">
+    </form>
+  </body>
+</html>
+"""
+
+@app.route("/")
+def index():
+    login_url = request.args.get("login_url", "")
+    return render_template_string(login_page, login_url=login_url)
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
