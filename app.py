@@ -20,6 +20,8 @@ def login():
     # 驗證邏輯，可接資料庫或固定帳密
     if username == "test" and password == "1234":
         # Web Auth 成功 → Redirect 回 Ruckus 提供的成功 URL
-        return redirect("http://10.0.0.1/success")
+        return redirect("https://google.com")
     else:
         return "Login Failed"
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
