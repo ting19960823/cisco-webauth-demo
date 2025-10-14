@@ -22,13 +22,12 @@ def index():
 def login():
     username = request.form.get("username")
     password = request.form.get("password")
-    start_url = request.form.get("start_url", "https://google.com")
+    start_url = request.form.get("start_url")
 
-    # 驗證帳號密碼
-    if username == "test" and password == "1234":
-        # ✅ 登入成功 → redirect SZ StartURL → client 被放行
+    if username == "guest" and password == "1234":
+        # 直接 redirect StartURL，SZ144 收到 redirect 就放行
         return redirect(start_url)
     else:
-        return "Invalid credentials.", 401
+        return "Login failed.", 401
 
 app.run(host="0.0.0.0", port=8080)
