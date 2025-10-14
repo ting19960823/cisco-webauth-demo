@@ -42,7 +42,7 @@ def login():
 
         # 這裡可以加驗證邏輯，例如查資料庫或固定帳密測試
         if username == "test" and password == "1234":
-            return "Login success! You can now access the network."
+            return redirect(start_url)
         else:
             return "Invalid credentials."
 
