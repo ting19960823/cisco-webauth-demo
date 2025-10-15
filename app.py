@@ -57,8 +57,8 @@ def login():
     # Build JSON for LoginAsync (非同步) 或 Login (同步) - 這裡示範 LoginAsync
     payload = {
         "Vendor": "ruckus",
-        "RequestUserName": "admin",
-        "RequestPassword": "1qazXSW@",
+        "RequestUserName": NBI_USER,
+        "RequestPassword": NBI_PASSWORD,
         "APIVersion": "1.0",
         "RequestCategory": "UserOnlineControl",
         "RequestType": "LoginAsync",
